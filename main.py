@@ -233,27 +233,29 @@ class Mainmenu(Frame):
     def ShowFrames(self, phanloai):
         self.HideAllFrame()
         self.image_products = []
-        self.button_add = []  # Khởi tạo danh sách mới cho button_add
+        self.button_add = []
         count = 0
-        for i in range(len(self.products)):
-            if self.products[i][4] == phanloai:
-                lf = LabelFrame(self.products_frame, bd=1, relief="solid", fg="white", bg="#252d35", text=self.products[i][0], font=("Comic Sans MS", 12, BOLD), labelanchor=N)
-                lf.grid(row=count//4, column=count % 4, padx=10, pady=10)
 
-                self.image_products.append(xuly_image(self.products[i][2], 70, 50))
-                label_image = Label(lf, image=self.image_products[count])
-                label_image.grid(row=2, column=0, padx=60, pady=5)
-
-                Label(lf, text=self.products[i][1], font=("Comic Sans MS", 12, "bold"), fg="white", bg="#252d35").grid(row=1, column=0, padx=60, pady=5)
-                Label(lf, text=self.products[i][3], font=("Comic Sans MS", 12, "bold"), fg="white", bg="#252d35").grid(row=3, column=0, padx=60, pady=5)
-
-                self.button_add.append(Button(lf, command=lambda idx=count: self.buy_product(self.products[idx]), text="Add to Cart",
-                                              font=("Comic Sans MS", 12, "bold"), fg="white", bg="#252d35", relief=SOLID))
-                self.button_add[count].grid(row=4, column=0, padx=60, pady=5)
-
-                count += 1
-            else:
+        for product in self.products:
+            if product[4] != phanloai:
                 continue
+
+            lf = LabelFrame(self.products_frame, bd=1, relief="solid", fg="white", bg="#252d35", text=product[0],
+                            font=("Comic Sans MS", 12, "bold"), labelanchor=N)
+            lf.grid(row=count // 4, column=count % 4, padx=10, pady=10)
+
+            self.image_products.append(xuly_image(product[2], 70, 50))
+            label_image = Label(lf, image=self.image_products[count])
+            label_image.grid(row=2, column=0, padx=60, pady=5)
+
+            Label(lf, text=product[3], font=("Comic Sans MS", 12, "bold"), fg="white", bg="#252d35").grid(row=1, column=0, padx=60, pady=5)
+            Label(lf, text=product[1], font=("Comic Sans MS", 12, "bold"), fg="white", bg="#252d35").grid(row=3, column=0, padx=60, pady=5)
+
+            button_add = Button(lf, command=lambda prod=product: self.buy_product(prod), text="Add to Cart", font=("Comic Sans MS", 12, "bold"), fg="white", bg="#252d35", relief=SOLID)
+            button_add.grid(row=4, column=0, padx=60, pady=5)
+            self.button_add.append(button_add)
+
+            count += 1
 
     def show_cart(self):
         self.HideAllFrame()
